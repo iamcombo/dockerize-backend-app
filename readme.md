@@ -98,8 +98,8 @@ npm recommendeds using npm ci instead of npm install when building your image.
 
 "npm ci is similar to npm install, except it's meant to be used in automated environments such as test platforms, continuous integration, and deployment -- or any situation where you want to make sure you're doing a clean install of your dependencies."
 
-```sh
-  RUN npm ci
+```yaml
+RUN npm ci
 ```
 
 ### The USER instruction
