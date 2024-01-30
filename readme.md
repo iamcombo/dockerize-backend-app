@@ -1,4 +1,4 @@
-# Dockerize Nestjs + Postgresql + Redis (Development)
+# Dockerize Nestjs + Postgresql + Redis
 
 ### 1. Create Dockerfile
 
@@ -80,31 +80,31 @@ Let's highlight a few important parts of this file:
 
 # Optimized Dockerfile for production
 
-### Use Alpine node images
+### 1. Use Alpine node images
 
-It's recommended to use the Alpine node images when trying to optimize for image size. Using node:18-alpine instead of node:18 by itself reduces the image size from 1.24GB to 466MB!
+It's recommended to use the Alpine node images when trying to optimize for image size. Using **node:18-alpine** instead of **node:18** by itself reduces the image size from 1.24GB to 466MB!
 
-### Add a NODE_ENV environment variable
+### 2. Add a NODE_ENV environment variable
 
-Many libraries have optimizations built in when the NODE_ENV environment variable is set to production, so we can set this environment variable in the Dockerfile build by adding the following line to our Dockerfile:
+Many libraries have optimizations built in when the **NODE_ENV** environment variable is set to **production**, so we can set this environment variable in the Dockerfile build by adding the following line to our Dockerfile:
 
 ```yaml
 ENV NODE_ENV production
 ```
 
-### Use npm ci instead of npm install
+### 3. Use npm ci instead of npm install
 
-npm recommendeds using npm ci instead of npm install when building your image.
+npm recommendeds using **npm ci** instead of **npm install** when building your image.
 
-"npm ci is similar to npm install, except it's meant to be used in automated environments such as test platforms, continuous integration, and deployment -- or any situation where you want to make sure you're doing a clean install of your dependencies."
+"**npm ci** is similar to **npm install**, except it's meant to be used in automated environments such as test platforms, continuous integration, and deployment -- or any situation where you want to make sure you're doing a clean install of your dependencies."
 
 ```yaml
 RUN npm ci
 ```
 
-### The USER instruction
+### 4. The USER instruction
 
-By default, if you don't specify a USER instruction in your Dockerfile, the image will run using the root permissions. This is a security risk, so we'll add a USER instruction to our Dockerfile.
+By default, if you don't specify a **USER** instruction in your Dockerfile, the image will run using the root permissions. This is a security risk, so we'll add a **USER** instruction to our Dockerfile.
 
 The node image we're using already has a user created for us called **node**, so let's use that:
 
@@ -112,15 +112,15 @@ The node image we're using already has a user created for us called **node**, so
 USER node
 ```
 
-Whenever you use the COPY instruction, it's also good practice to add a flag to ensure the user has the correct permissions.
+Whenever you use the **COPY** instruction, it's also good practice to add a flag to ensure the user has the correct permissions.
 
-You can achieve this by using --chown=node:node whenever you use the COPY instruction, for example:
+You can achieve this by using **--chown=node:node** whenever you use the **COPY instruction**, for example:
 
 ```yaml
 COPY --chown=node:node package*.json ./
 ```
 
-### Use multistage builds
+### 5. Use multistage builds
 
 In your Dockerfile you can define multistage builds which is a way to sequentially build the most optimized image by building multiple images.
 
