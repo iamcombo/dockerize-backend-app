@@ -2,7 +2,7 @@
 
 ### 1. Create Dockerfile
 
-```docker
+```yaml
   FROM node:18-alpine As development
 
   # Create app directory
@@ -88,7 +88,7 @@ It's recommended to use the Alpine node images when trying to optimize for image
 
 Many libraries have optimizations built in when the NODE_ENV environment variable is set to production, so we can set this environment variable in the Dockerfile build by adding the following line to our Dockerfile:
 
-```docker
+```yaml
 ENV NODE_ENV production
 ```
 
@@ -108,7 +108,7 @@ By default, if you don't specify a USER instruction in your Dockerfile, the imag
 
 The node image we're using already has a user created for us called **node**, so let's use that:
 
-```docker
+```yaml
 USER node
 ```
 
@@ -116,8 +116,8 @@ Whenever you use the COPY instruction, it's also good practice to add a flag to 
 
 You can achieve this by using --chown=node:node whenever you use the COPY instruction, for example:
 
-```docker
-  COPY --chown=node:node package*.json ./
+```yaml
+COPY --chown=node:node package*.json ./
 ```
 
 ### Use multistage builds
@@ -126,7 +126,7 @@ In your Dockerfile you can define multistage builds which is a way to sequential
 
 Outside of using a small image, multistage builds is where the biggest optimizations can be made.
 
-```docker
+```yaml
   ###################
   # BUILD FOR LOCAL DEVELOPMENT
   ###################
@@ -163,7 +163,7 @@ This multistage build uses 3 stages:
 
 ### Putting it all together
 
-```docker
+```yaml
   ###################
   # BUILD FOR LOCAL DEVELOPMENT
   ###################
